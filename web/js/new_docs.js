@@ -5,7 +5,7 @@ var todo_count = 0;
 var toggle_count = 0;
 var doc_title;
 var temp;
-var body;
+var doc_body;
 var emoji_array =[
     "1F600",
     "1F603",
@@ -64,7 +64,7 @@ var emoji_array =[
 ]
 
 document.getElementById('docs_back_button').addEventListener('click', new_back, false);
-//document.getElementById('docs_title_emoji').addEventListener('click', new_back, false);
+
 window.onload = function () {
 
     document.getElementById("docs_contents_container").focus();
@@ -81,42 +81,37 @@ window.onload = function () {
         user_id = items.user_id;
         if (!chrome.runtime.error) {
         }
-        await emoji();
+        await new_emoji_choose();
     });
 }
 
-async function emoji(){
+async function new_emoji_choose(){
 
     var emoji_num = emoji_array.length;
     var random = parseInt(Math.random() * emoji_num);
     doc_img = emoji_array[random];
 
-    await emoji_show();
-}
-
-async function emoji_show(){
     chrome.storage.sync.set({"doc_img": doc_img}, async function () {
         if (chrome.runtime.error) {
             console.log("Runtime error");
         }
-        await zon();
+        await new_emoji_show();
     });
+
 }
 
-async function zon(){
+async function new_emoji_show(){
 
     var addemoji = document.createElement('p');
+    var emoji_hexa = String.fromCodePoint(parseInt(doc_img, 16));
+    addemoji.innerHTML = emoji_hexa;
+    document.getElementById('docs_title_emoji').value = addemoji.innerHTML;
 
-    var emoji = doc_img;
-    String.fromCode
-
-    addemoji.innerHTML = "\&\#\s" + doc_img + "\;";
-
-    await load2();
+    await create();
 }
 
 
-async function load2() {
+async function create() {
     var xhttp = new XMLHttpRequest();
     try {
         xhttp.open("GET", "https://sharesdocument.ml/doc/add/" + user_id,false);
@@ -130,37 +125,34 @@ async function load2() {
     }
 }
 
-
 async function new_back() {
-
     if(document.getElementById("docs_title").value.length === 0) {
+
         doc_title = "제목없음";
-        body =  document.getElementById("docs_contents_container").innerHTML;
+        doc_body =  document.getElementById("docs_contents_container").innerHTML;
     }else{
+
         doc_title = document.getElementById("docs_title").value;
-        body =  document.getElementById("docs_contents_container").innerHTML;
+        doc_body =  document.getElementById("docs_contents_container").innerHTML;
     }
 
-    //await new_back_ha();
-    await new_ua();
-}
-
-async function new_ua(){
     chrome.storage.sync.get('doc_content', async function (items) {
         doc_content = items.doc_content;
         if (!chrome.runtime.error) {
         }
-        await new_back_ha();
+        await new_save();
     });
+
 }
 
-async function new_back_ha() {
+async function new_save() {
 
     var http = new XMLHttpRequest();
     try {
         http.open('Post',"https://sharesdocument.ml/doc", false );
         http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        http.send("user_id=" + user_id + "&doc_id=" + doc_id + "&doc_title=" + doc_title + "&doc_body=" + body + "&todo_count=" + todo_count + "&toggle_count=" + toggle_count + "&doc_img=" + doc_img); //doc_alarm 추가
+
+        http.send("user_id=" + user_id + "&doc_id=" + doc_id + "&doc_title=" + doc_title + "&doc_body=" + doc_body + "&todo_count=" + todo_count + "&toggle_count=" + toggle_count + "&doc_img=" + doc_img); //doc_alarm 추가
 
         if(http.readyState === 4 && http.status === 201){
 
@@ -170,7 +162,7 @@ async function new_back_ha() {
                 temp = items.temp;
                 if (!chrome.runtime.error) {
                 }
-                await cicibal();
+                await new_list();
             });
         }
     }catch (e) {
@@ -178,7 +170,7 @@ async function new_back_ha() {
     }
 }
 
-async function cicibal(){
+async function new_list(){
     if(temp == 1){
         document.location.replace("list_login.html");
     }

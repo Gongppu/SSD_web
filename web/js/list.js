@@ -48,7 +48,6 @@ function create() {
 
         if (!chrome.runtime.error) {
             await move_new();
-            alert(temp);
         }
     });
 }

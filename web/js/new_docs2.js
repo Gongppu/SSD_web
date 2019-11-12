@@ -1,10 +1,9 @@
-document.getElementById('docs_button_save').addEventListener('click',save,false);
+document.getElementById('docs_button_save').addEventListener('click',new_save_,false);
 document.getElementById("add_todolist").addEventListener('click', addTodoList, false);
 document.getElementById("add_togglelist").addEventListener('click', addToggleList, false);
-document.getElementById('doc_delete_button').addEventListener('click', delete_doc, false);
+document.getElementById('doc_delete_button').addEventListener('click', new_delete, false);
 document.getElementById("doc_share_button").addEventListener('click', share, false);
 document.getElementById("doc_alarm_button").addEventListener('click', alarm, false);
-
 document.getElementById("font_color").addEventListener('click', onReadyFunction, false);
 document.getElementById("font_background_color").addEventListener('click', onReadyFunction, false);
 document.getElementById("font_bold_text").addEventListener('click', onReadyFunction, false);
@@ -14,12 +13,18 @@ document.getElementById("font_underline_text").addEventListener('click', onReady
 var image_count = 0;
 var title;
 var body;
+var check;
 
-async function alarm(){
-    await save1();
+function alarm(){
+     check = 0;
+     new_save_();
+}
+function share() {
+    check = 1;
+    new_save_();
 }
 
-async function save1(){
+async function new_save_(){
     if (document.getElementById("docs_title").value.length === 0) {
         alert("제목을 입력하세요.");
     } else {
@@ -28,13 +33,13 @@ async function save1(){
         chrome.storage.sync.get('doc_img', async function (items) {
             doc_img = items.doc_img;
             if (!chrome.runtime.error) {
-                await cibal1();
+                await new_post();
             }
         });
     }
 }
 
-async function cibal1(){
+async function new_post(){
     var http = new XMLHttpRequest();
     try {
         http.open('POST',"https://sharesdocument.ml/doc", false );
@@ -47,89 +52,25 @@ async function cibal1(){
     }catch (e) {
         alert(e.toString());
     }
-    await move1();
-}
-async function move1(){
-    document.location.replace("send_alarm.html");
-}
 
-async function share() {
-    await save2();
-}
-
-async function save2(){
-    if (document.getElementById("docs_title").value.length === 0) {
-        alert("제목을 입력하세요.");
-    } else {
-        title = document.getElementById("docs_title").value;
-        body = document.getElementById("docs_contents_container").innerHTML;
-        chrome.storage.sync.get('doc_img', async function (items) {
-            doc_img = items.doc_img;
-            if (!chrome.runtime.error) {
-
-                await cibal2();
-            }
-        });
+    if(check == 0){
+        await new_move();
+    }
+    else if(check == 1){
+        await move2();
     }
 }
 
-async function cibal2(){
-    var http = new XMLHttpRequest();
-    try {
-        http.open('Post',"https://sharesdocument.ml/doc", false );
-        http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-        http.send("user_id=" + user_id + "&doc_id=" + doc_id + "&doc_title=" + doc_title + "&doc_body=" + body + "&todo_count=" + todo_count + "&toggle_count=" + toggle_count + "&doc_img=" + doc_img); //doc_alarm 추가
-        if(http.readyState === 4 && http.status === 201){
-            var response = JSON.parse(http.responseText);
-        }
-        alert("저장되었습니다.");
-    }catch (e) {
-        alert(e.toString());
+function new_move(){
+    if(check == 0){
+        document.location.replace("send_alarm.html");
     }
-    await move2();
-}
-
-async function move2(){
-    document.location.replace("share.html");
-}
-
-async function save() {
-    if (document.getElementById("docs_title").value.length === 0) {
-        alert("제목을 입력하세요.");
-    } else {
-        doc_title = document.getElementById("docs_title").value;
-        body = document.getElementById("docs_contents_container").innerHTML;
-
-        chrome.storage.sync.get('doc_img', async function (items) {
-            doc_img = items.doc_img;
-            if (!chrome.runtime.error) {
-
-                await cibal();
-            }
-        });
+    else{
+        document.location.replace("share.html");
     }
 }
 
-async function cibal(){
-
-    var http = new XMLHttpRequest();
-    try {
-        alert("저장되었습니다.");
-        http.open('Post',"https://sharesdocument.ml/doc", false );
-        http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        http.send("user_id=" + user_id + "&doc_id=" + doc_id + "&doc_title=" + doc_title + "&doc_body=" + body + "&todo_count=" + todo_count + "&toggle_count=" + toggle_count + "&doc_img=" + doc_img); //doc_alarm 추가
-        if(http.readyState === 4 && http.status === 201){
-            var response = JSON.parse(http.responseText);
-        }
-    }catch (e) {
-        alert(e.toString());
-    }
-
-}
-
-async function delete_doc() {
-    alert("삭제되었습니다.");
+async function new_delete() {
     var xhttp = new XMLHttpRequest();
     try {
         xhttp.open("DELETE", "https://sharesdocument.ml/doc/" + doc_id,false);
@@ -140,28 +81,22 @@ async function delete_doc() {
     }catch (e) {
         alert(e.toString());
     }
-
     chrome.storage.sync.get('temp', async function (items) {
         temp = items.temp;
         if (!chrome.runtime.error) {
         }
-        await move_stop();
+        alert("삭제되었습니다.");
+        if(temp == 1){
+            document.location.replace("list_login.html");
+        }
+        else{
+            document.location.replace("list.html");
+        }
     });
-}
-
-async function move_stop() {
-    if(temp == 1){
-        document.location.replace("list_login.html");
-    }
-    else{
-        document.location.replace("list.html");
-    }
 }
 
 function addTodoList() {
     var addFormDiv = document.getElementById("docs_contents_container");
-
-    //var str ='<input type="checkbox" id="todo'+todo_count+'" name="todo'+todo_count+'"style="margin-right: 8px; width: 20px; height: 20px;"/>'
 
     var str = '<img src="images/check_off.png id="todo_button'+todo_count+'" name="off" style="margin-right: 8px; width: 14px; height: 14px; margin-top: 2px;"><div id="todo_text' + todo_count +'" contenteditable="true" placeholder ="To-do" style="display: inline; "></div>'
     var addedDiv = document.createElement("div");
@@ -207,7 +142,6 @@ function preventTodoEnter(count){
     });
 
 }
-
 
 function addToggleList(){
     var addFormDiv = document.getElementById("docs_contents_container");
@@ -258,7 +192,6 @@ function addImage(input) {
     setImageUrl(image_count, input)
     image_count++;
 }
-
 
 function setImageUrl(count, input){
     if (input.files && input.files[image_count]) {
