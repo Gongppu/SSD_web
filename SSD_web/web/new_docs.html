@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="css/doc_.css" type="text/css" rel="stylesheet" />
+    <link href="css/general.css" type="text/css" rel="stylesheet" />
+    <title>Title</title>
+    <script src="js/prevent.js"></script>
+    <script src="js/jquery-latest.min.js"></script>
+
+    <script src="path/jquery-3.4.1.js"></script>
+</head>
+<body>
+<div id = "docs_fixed_top" style="position: fixed; width: 100%; right: 0; background-color: white;" >
+    <div class="docs_top_element" style="display: flex; flex-direction: column;">
+        <div id="top_element1" style="height: 54px; width: 100%;" >
+            <!--<div id="docs_title_emoji_container"  style="height:100%; width: 50px; float: left">
+                <input type="text" id="docs_title_emoji" maxlength="2">
+            </div>-->
+            <!-- 원래 로고 있던 곳 -->
+            <div id="docs_title_emoji"  style="height:100%; width: 50px; float: left">
+                <img src="images/ssd-logo.png" style="height:40px; width:40px;float:left; margin-left: 5px; margin-top: 5px">
+            </div>
+            <div id="docs_title_container">
+                <input type="text" placeholder="제목을 입력하세요." id="docs_title" name="docs_title" />
+            </div>
+            <div id="docs_button_menu">
+                <div class="dropdown">
+                    <img class="dropbtn" src="images/menu_icon.png"/>
+                    <div class="dropdown-content" id="dropdown_content">
+                        <div id="doc_delete_button">문서 삭제</div>
+                    </div>
+                </div>
+            </div>
+            <div id="docs_button_save"><img src="images/save-docs.png"/></div>
+        </div>
+
+        <div id="top_element2">
+                <span id="add_todolist" style="text-align: center; display: flex; flex-direction: column; margin-right: 12px; margin-left:15px" >
+                <span id="add_todolist_image"><img src="images/checklist-icon@3x.png" style="height: 16px; width: 16px"/></span>
+               <input type="button" value="체크리스트" style="margin: 0; border:none; background: none; font-size: 9px; padding: 0"/>
+            </span>
+            <span id="add_togglelist" style="text-align: center; display: flex; flex-direction: column; margin-right: 21px;">
+                <span style=""><img src="images/togglelist_icon@2x.png" style="height: 16px; width: 16px"/></span>
+                <input type="button" value="토글리스트" style="margin: 0; border:none; background: none; font-size: 9px; padding: 0"/>
+            </span>
+            <div style="overflow: hidden; width: 30px; height: 30px;">
+                <div style="width:30px;height:30px;position: absolute;overflow: hidden; ">
+                    <input id="add_image" style="font-size: 30px; color: rgba(0, 0, 0, 0); right: 0px; position: absolute; top: 0px" type="file" name="board_img" />
+                </div>
+            </div>
+            <span id="add_photo" class="add_elements" style="text-align: center; display: flex; flex-direction: column; position: relative; left: -30px; pointer-events: none; cursor: pointer">
+                <span style=""><img src="images/photo-icon@3x.png" style="height: 16px; width: 16px"/></span>
+                <input type="button" value="그림" style="margin: 0; border:none; background: none; font-size: 9px; padding: 0" />
+            </span>
+            <div style="overflow: hidden; width: 30px; height: 30px;">
+                <div style="width:30px;height:30px;position: absolute; overflow: hidden; ">
+                    <form id="ajaxform" action="" method="post" enctype="multipart/form-data">
+                        <input id="add_file" name="board_img" style="font-size: 30px; color: rgba(0, 0, 0, 0); right: 0px; position: absolute; top: 0px" type="file">
+                    </form>
+                </div>
+            </div>
+            <span id="" style="text-align: center; display: flex; flex-direction: column;margin-right: 23px; position: relative; left: -30px; pointer-events: none; cursor:pointer;" >
+                <span style=""><img src="images/file-icon@3x.png" style="height: 16px; width: 16px"/></span>
+                <input id="file" type="button" value="파일" style="margin: 0; border:none; background: none; font-size: 9px; padding: 0"/>
+            </span>
+
+        </div>
+
+        <div id="top_element3">
+            <div id="set_font_family" style="border-right: 0.2px solid #dddddd;" >
+                <select name="ff" id="ff" class="font_family" style="font-size: 14px; ">
+                    <option value="dotum,'돋움',sans-serif ">돋움</option>
+                    <option value="gulim, '굴림', sans-serif">굴림</option>
+                    <option value="magun gothic, '맑은고딕', sans-serif">맑은고딕</option>
+                    <option value="gungsuh, '궁서', serif">궁서</option>
+                </select>
+            </div>
+            <div id="set_font_size" style="border-right: 0.2px solid #dddddd;" >
+                <select name="fs" id="fs" class="font_size" style="font-size: 14px; margin-right: 3px ">
+                    <option value="8">8</option>
+                    <option value="10">10</option>
+                    <option value="11" selected>11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="16">16</option>
+                    <option value="18">18</option>
+                    <option value="20">20</option>
+                    <option value="24">24</option>
+                    <option value="32">32</option>
+                    <option value="40">40</option>
+                    <option value="52">52</option>
+                    <option value="72">52</option>
+                </select>
+            </div>
+            <div id="set_font_style" style="border-right: 0.2px solid #dddddd;">
+                <div id="font_bold_text" style="margin-right: 15px"><b>B</b></div>
+                <div id="font_italic_text" style="margin-right: 15px"><i>I</i></div>
+                <div id="font_underline_text"><u>U</u></div>
+            </div>
+            <div id="set_font_color" style="border-right: 0.2px solid #dddddd;">
+                <div id="font_color" style="margin-right: 15px"><img src="images/font_color_icon@2x.png" style="width: 16px; height: 18px"/></div>
+                <div id="font_background_color"><img src="images/font_background_icon@2x.png" style="width: 16px; height: 18px"/> </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="docs_back_button" >
+        <img src="images/back_btn_shadow@2x.png" style="height: 70px; width:70px; position: fixed; bottom: 50px; right: 18px">
+    </div>
+    <script src="js/new_docs.js"></script>
+    <div id="docs_contents_container" contenteditable="true">
+
+    </div>
+
+</div>
+<script src="js/jquery-2.1.3.js"></script>
+
+<script src="js/new_docs2.js"></script>
+<script src="js/addElements.js"></script>
+</body>
+</html>

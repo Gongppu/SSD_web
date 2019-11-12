@@ -1,0 +1,82 @@
+.top_image{
+    margin-left: 16px;
+    float: left;
+    width: 30px;
+    height: 30px;
+    background-color: #FFFFFF;
+}
+
+.top_name{
+    margin-bottom: 20px;
+    margin-left: 9px;
+    margin-top: 4px;
+    float: left;
+    width: 100px;
+    height: 24px;
+    font-size: 20px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.2;
+    letter-spacing: normal;
+    text-align: left;
+    color: #ff725f;
+}
+body div{
+    alignment: top;
+}
+
+
+.doc_title{
+    float: left;
+    margin-left: 12px;
+    padding-top: 9px;
+    font-size: 18px;
+    color: black
+
+}
+
+.top_button{
+    float: right;
+    margin-right: 15px;
+    width: 15px;
+    height: 15px;
+    margin-top: 5px;
+}
+
+.line{
+    clear: both;
+    margin-bottom: 0px;
+}
+
+.docdoc{
+    padding-top: 20px;
+    padding-left: 20px;
+    height: 50px;
+    padding-bottom: 10px;
+}
+
+.docdoc div{
+    float: left;
+}
+
+.docdoc img {
+    float: right;
+    margin-right: 20px;
+}
+
+.docdoc:hover{
+    background-color: #FFD1CB;
+}
+
+.out{
+    padding-left: 20px;
+    margin-top: 0;
+    padding-top: 20px;
+    text-align: center;
+}
+
+.out img{
+    width: 200px;
+}
+
