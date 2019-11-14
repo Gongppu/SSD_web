@@ -105,6 +105,8 @@ async function new_emoji_show(){
     var addemoji = document.createElement('p');
     var emoji_hexa = String.fromCodePoint(parseInt(doc_img, 16));
     addemoji.innerHTML = emoji_hexa;
+    //alert(emoji_hexa);
+    //alert(addemoji.innerHTML);
     document.getElementById('docs_title_emoji').value = addemoji.innerHTML;
 
     await create();

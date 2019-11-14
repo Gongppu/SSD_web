@@ -13,7 +13,7 @@ document.getElementById("font_underline_text").addEventListener('click', onReady
 var image_count = 0;
 var title;
 var body;
-var check;
+var check = 3;
 
 function alarm(){
      check = 0;
@@ -53,19 +53,14 @@ async function new_post(){
         alert(e.toString());
     }
 
-    if(check == 0){
-        await new_move();
-    }
-    else if(check == 1){
-        await move2();
-    }
+    new_move();
 }
 
 function new_move(){
     if(check == 0){
         document.location.replace("send_alarm.html");
     }
-    else{
+    else if(check == 1){
         document.location.replace("share.html");
     }
 }

@@ -62,7 +62,7 @@ var emoji_array =[
     "1F33D",
     "1F35E"
 ]
-document.getElementById('docs_back_button').addEventListener('click', back, false);
+document.getElementById('docs_back_button').addEventListener('click', doc_back, false);
 var isTrue;
 // back 버튼
 //document.getElementById('docs_title_emoji').addEventListener('click', back, false);
@@ -74,46 +74,32 @@ window.onload = function () {
         $("#ff").on("change", function () {
             insertNode('<font style="font-family: ' + $(this).val() + '">')
         });
-
         $("#fs").on("change", function (){
             insertNode('<font style="font-size: '+ $(this).val() + 'px">')
         });
-
-
         $("#fc").on("click", function(){
             insertNode('<font style = "color: ' + "#ff725f" + '">')
-
         });
-
     });
 
     chrome.storage.sync.get('user_id', async function (items) {
         user_id = items.user_id;
         if (!chrome.runtime.error) {
         }
-        await hhhao();
+        await get_id();
     });
-
 }
 
-async function hhhao(){
+async function get_id(){
     chrome.storage.sync.get('doc_id', async function (items) {
         doc_id = items.doc_id;
         if (!chrome.runtime.error) {
         }
-        await hhha();
+        await load_doc();
     });
 }
 
-async function go_back(){
-if(temp == 1){
-    document.location.replace("list_login.html");
-}
-else{
-    document.location.replace("list.html");
-}
-}
-async function hhha() {
+async function load_doc() {
     var xhttp = new XMLHttpRequest();
     try {
 
@@ -148,6 +134,10 @@ async function hhha() {
             /*이모지 추가해야함*/
             document.getElementById("docs_contents_container").innerHTML = doc_content;
             document.getElementById("docs_title").value = doc_title;
+            var addemoji = document.createElement('p');
+            var emoji_hexa = String.fromCodePoint(parseInt(doc_img, 16));
+            addemoji.innerHTML = emoji_hexa;
+            document.getElementById('docs_title_emoji').value = addemoji.innerHTML;
 
             for (var i = 0; i < todo_count; i++){
                 addTodoButtonEventListener(i, "load");
@@ -160,7 +150,7 @@ async function hhha() {
     }
 }
 
-async function back() {
+async function doc_back() {
 
     if(document.getElementById("docs_title").value.length === 0) {
         doc_title = "제목없음";
@@ -171,18 +161,16 @@ async function back() {
         body =  document.getElementById("docs_contents_container").innerHTML;
     }
 
-    await ua();
-}
-
-async function ua(){
     chrome.storage.sync.get('doc_content', async function (items) {
         doc_content = items.doc_content;
+        alert(2);
         if (!chrome.runtime.error) {
         }
-        await back_ha();
+        await doc_save();
     });
 }
-async function back_ha() {
+
+async function doc_save() {
     var body = document.getElementById("docs_contents_container").innerHTML;
 
     var http = new XMLHttpRequest();
@@ -197,7 +185,7 @@ async function back_ha() {
                 temp = items.temp;
                 if (!chrome.runtime.error) {
                 }
-                await hwa();
+                await go_back();
             });
         }
 
@@ -206,7 +194,7 @@ async function back_ha() {
     }
 }
 
-async function hwa() {
+async function go_back(){
     if(temp == 1){
         document.location.replace("list_login.html");
     }

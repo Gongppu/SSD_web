@@ -80,3 +80,10 @@ body div{
     width: 200px;
 }
 
+.doc {
+    height: 40px; padding-top: 4px; padding-bottom: 13px;
+}
+
+.doc_emoji{
+    float: left; font-size: 20px; margin-left: 12px;
+}

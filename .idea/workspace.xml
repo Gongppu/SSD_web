@@ -2,13 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3fc4028c-523e-4057-90a9-cded9e10dd66" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/web/docs.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/docs.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/docs_login.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/docs_login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/css/list.css" beforeDir="false" afterPath="$PROJECT_DIR$/web/css/list.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/js/alarm.js" beforeDir="false" afterPath="$PROJECT_DIR$/web/js/alarm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/js/docs.js" beforeDir="false" afterPath="$PROJECT_DIR$/web/js/docs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/js/docs2.js" beforeDir="false" afterPath="$PROJECT_DIR$/web/js/docs2.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/js/list.js" beforeDir="false" afterPath="$PROJECT_DIR$/web/js/list.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/js/new_docs.js" beforeDir="false" afterPath="$PROJECT_DIR$/web/js/new_docs.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/js/new_docs2.js" beforeDir="false" afterPath="$PROJECT_DIR$/web/js/new_docs2.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/new_docs.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/new_docs.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/new_docs_login.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/new_docs_login.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -49,6 +50,10 @@
       <option name="presentableId" value="Default" />
       <updated>1573540278872</updated>
       <workItem from="1573540280051" duration="2266000" />
+      <workItem from="1573547099441" duration="299000" />
+      <workItem from="1573549709476" duration="441000" />
+      <workItem from="1573690245985" duration="299000" />
+      <workItem from="1573710779766" duration="4284000" />
     </task>
     <servers />
   </component>
@@ -60,7 +65,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

@@ -16,11 +16,78 @@ var body;
 var title;
 var temp;
 var body;
+var check;
 var doc_content;
 
 async function share() {
-    await save1();
+    check = 1;
+    await save();
 }
+async function alarm() {
+    check = 0;
+    await save();
+}
+
+async function save() {
+
+    if(document.getElementById("docs_title").value.length === 0) {
+        alert("제목을 입력하세요.");
+    }else{
+
+        title = document.getElementById("docs_title").value;
+        body =  document.getElementById("docs_contents_container").innerHTML;
+
+        chrome.storage.sync.get('doc_content', async function (items) {
+            doc_content = items.doc_content;
+            if (!chrome.runtime.error) {
+            }
+            await post();
+        });
+    }
+}
+
+
+async function post() {
+    body = document.getElementById("docs_contents_container").innerHTML;
+    if(doc_content == body && doc_title == title){
+        alert("변경 사항이 없습니다.");
+    } else{
+        alert("변경되었습니다.");
+    }
+    doc_title = document.getElementById("docs_title").value;
+    body = document.getElementById("docs_contents_container").innerHTML;
+
+    var http = new XMLHttpRequest();
+    try {
+        http.open('Post',"https://sharesdocument.ml/doc", false );
+        http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        http.send("&user_id=" + user_id + "&doc_id=" + doc_id + "&doc_title=" + doc_title + "&doc_body=" + body + "&todo_count=" + todo_count + "&toggle_count=" + toggle_count + "&doc_img=" + doc_img); //doc_alarm 추가
+
+        if(http.readyState === 4 && http.status === 201){
+
+            var response = JSON.parse(http.responseText);
+
+            chrome.storage.sync.get('temp', async function (items) {
+                temp = items.temp;
+                if (!chrome.runtime.error) {
+                }
+                await move();
+            });
+        }
+    }catch (e) {
+        alert(e.toString());
+    }
+}
+
+function move(){
+    if(check == 0){
+        document.location.replace("send_alarm.html");
+    }
+    else if(check == 1){
+        document.location.replace("share.html");
+    }
+}
+
 async function save1() {
 
     if(document.getElementById("docs_title").value.length === 0) {
@@ -41,16 +108,7 @@ async function save1() {
 
 
 
-function insertNode(str){
-    var _range = window.getSelection().getRangeAt(0);
-    var _content = _range.cloneContents();
-    var _node = document.createElement('span');
-    _node.appendChild(_content);
-    _node.innerHTML = str + _node.innerHTML + '</font>'
-    if (_node) _node = _node.childNodes[0];
-    _range.deleteContents();
-    _range.insertNode(_node);
-}
+
 
 async function ha1() {
     var body = document.getElementById("docs_contents_container").innerHTML;
@@ -78,9 +136,7 @@ async function ha1() {
 
 }
 
-async function alarm() {
-    await save2();
-}
+
 async function save2() {
 
     if(document.getElementById("docs_title").value.length === 0) {
@@ -123,23 +179,6 @@ async function ha2() {
     }
 }
 
-async function save() {
-
-    if(document.getElementById("docs_title").value.length === 0) {
-        alert("제목을 입력하세요.");
-    }else{
-
-        title = document.getElementById("docs_title").value;
-        body =  document.getElementById("docs_contents_container").innerHTML;
-
-        chrome.storage.sync.get('doc_content', async function (items) {
-            doc_content = items.doc_content;
-            if (!chrome.runtime.error) {
-            }
-            await ha();
-        });
-    }
-}
 
 async function hae(){
     chrome.storage.sync.get('temp', async function (items) {
@@ -158,32 +197,7 @@ async function hoho(){
         document.location.replace("docs.html");
     }
 }
-async function ha() {
-    body = document.getElementById("docs_contents_container").innerHTML;
-    if(doc_content == body && doc_title == title){
-        alert("변경 사항이 없습니다.");
-    } else{
-        alert("변경되었습니다.");
-    }
-    doc_title = document.getElementById("docs_title").value;
-    body = document.getElementById("docs_contents_container").innerHTML;
 
-    var http = new XMLHttpRequest();
-    try {
-        http.open('Post',"https://sharesdocument.ml/doc", false );
-        http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        http.send("&user_id=" + user_id + "&doc_id=" + doc_id + "&doc_title=" + doc_title + "&doc_body=" + body + "&todo_count=" + todo_count + "&toggle_count=" + toggle_count + "&doc_img=" + doc_img); //doc_alarm 추가
-
-        if(http.readyState === 4 && http.status === 201){
-
-            var response = JSON.parse(http.responseText);
-
-            await hae();
-        }
-    }catch (e) {
-        alert(e.toString());
-    }
-}
 
 function delete_doc() {
     alert("삭제되었습니다.");
@@ -202,11 +216,11 @@ function delete_doc() {
         temp = items.temp;
         if (!chrome.runtime.error) {
         }
-        await loading22();
+        await move_list();
     });
 }
 
-async function loading22() {
+async function move_list() {
 
     if(temp == 1){
         document.location.replace("list_login.html");
@@ -215,6 +229,7 @@ async function loading22() {
     document.location.replace("list.html");
     }
 }
+
 function addTodoList(){
     var container = document.getElementById("docs_contents_container");
     var selection = window.getSelection();
@@ -364,6 +379,16 @@ function setFontColor(){
 
 }
 
+function insertNode(str){
+    var _range = window.getSelection().getRangeAt(0);
+    var _content = _range.cloneContents();
+    var _node = document.createElement('span');
+    _node.appendChild(_content);
+    _node.innerHTML = str + _node.innerHTML + '</font>'
+    if (_node) _node = _node.childNodes[0];
+    _range.deleteContents();
+    _range.insertNode(_node);
+}
 
 function onReadyFunction() {
     alert("아직 개발중인 기능입니다. :)")

@@ -8,13 +8,26 @@ function structlist(){
     var id;
     var title;;
     var share;
+    var doc_img;
 }
 
+var index = 0;
 var user_no;
 var user_id = "";
 var isTrue;
 
 window.onload = function () {
+
+    index = 0;
+
+    chrome.storage.sync.set({"user_no": user_no}, function () {
+
+        console.log("user_no"+user_no);
+        if (chrome.runtime.error) {
+            console.log("Runtime error");
+        }
+    });
+
     chrome.storage.sync.get('user_id', async function (items) {
         user_id = items.user_id;
 
@@ -25,21 +38,8 @@ window.onload = function () {
         }
         await load();
     });
-
-
 }
 
-function callcall(){
-
-    chrome.storage.sync.set({"user_no": user_no}, function () {
-
-        console.log("user_no"+user_no);
-        if (chrome.runtime.error) {
-            console.log("Runtime error");
-        }
-    });
-
-}
 document.getElementById('docs_create_button').addEventListener('click', create, false);
 function create() {
 
@@ -74,11 +74,11 @@ async function load() {
             user_no = response.user_no;
             list_count = response.list.length;
             list = new Array(list_count);
+            doc_img = response.doc_img;
             //isTrue = response.isTrue;
 
             for (var i = 0; i < list_count; i++) {
                 list[i] = new structlist();
-
                 list[i].doc_img = response.list[i].doc_img;
                 list[i].id = response.list[i].doc_id;
                 list[i].title = response.list[i].doc_title;
@@ -89,29 +89,27 @@ async function load() {
         alert(e.toString());
     }
 
-    callcall();
-
     for (var i = 0; i < list_count; i++) {
 
         if (list[i].share == 0) {
             var container = document.getElementById("docs_list")
 
-            //수정
-            var str = '<div class="doc" style="height: 40px; padding-top: 4px; padding-bottom: 13px;"> <span class="doc_emoji" style="float: left; font-size: 30px; margin-left: 12px">&#x1F601;</span> <div class="doc_title">' + list[i].title + '</div> </div>'
+            var emoji_hexa = String.fromCodePoint(parseInt(list[i].doc_img, 16));
+
+            var str = '<div class="doc"><p class="doc_emoji">' + emoji_hexa + '</p><div class="doc_title">' + list[i].title + '</div></div>'
             var _div = document.createElement('div');
             _div.setAttribute("id", list[i].id);
             _div.setAttribute("class", "docdoc");
-            _div.innerHTML = str;
+            var str_ = '<div class="doc_title">' + list[i].title + '</div>';
+            _div.innerHTML += str;
 
             _div.addEventListener('click', function(ev){
                 doc_id = this.id;
-
                 chrome.storage.sync.set({"doc_id": doc_id}, function () {
                     if (chrome.runtime.error) {
                         console.log("Runtime error");
                     }
                 });
-
                 chrome.storage.sync.get('temp', async function (items) {
                     temp = items.temp;
                     if (!chrome.runtime.error) {
@@ -124,20 +122,22 @@ async function load() {
 
             var container = document.getElementById("docs_list")
 
-            var str = '<div class="doc" style="height: 40px; padding-top: 13px; padding-bottom: 13px;"> <span class="doc_emoji" style="float: left; font-size: 30px; margin-left: 16px">&#x1F601;</span> <div class="doc_title">' + list[i].title + '</div> <img src="images/shared_docs/shared_docs@3x.png" style="width: 16px; height: 16px; float: right; margin-right: 20px; margin-top: 10px;"> </div>'
+            var emoji_hexa = String.fromCodePoint(parseInt(list[i].doc_img, 16));
+
+            var str = '<div class="doc"><p class="doc_emoji">' + emoji_hexa + '</p><div class="doc_title">' + list[i].title + '</div></div><img src="images/shared_docs/shared_docs@3x.png" style="width: 16px; height: 16px; float: right; margin-right: 20px; margin-top: 10px;">'
             var _div = document.createElement('div');
             _div.setAttribute("id", list[i].id);
             _div.setAttribute("class", "docdoc");
-            _div.innerHTML = str;
+            var str_ = '<div class="doc_title">' + list[i].title + '</div>';
+            _div.innerHTML += str;
+
             _div.addEventListener('click', function(ev){
                 doc_id = this.id;
-
                 chrome.storage.sync.set({"doc_id": doc_id}, function () {
                     if (chrome.runtime.error) {
                         console.log("Runtime error");
                     }
                 });
-
                 chrome.storage.sync.get('temp', async function (items) {
                     temp = items.temp;
                     if (!chrome.runtime.error) {
@@ -145,9 +145,7 @@ async function load() {
                     await dfdf();
                 });
             })
-
             container.appendChild(_div);
-
         }
     }
     chrome.storage.sync.set({"user_id": user_id}, function () {

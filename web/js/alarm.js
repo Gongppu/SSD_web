@@ -90,6 +90,7 @@ function setSelectEventListener(count){
 
 }
 var result = [];
+
 async function send() {
     for (var k = 0; k < email_count - 1; k++){
         var ttemp = document.getElementById('member_select_button' + k).name;
@@ -111,7 +112,7 @@ async function send2() {
         if(http.readyState === 4 && http.status === 201){
             var response = JSON.parse(http.responseText);
         }
-        alert("저장되었습니다.");
+        alert("전송되었습니다.");
     }catch (e) {
         alert(e.toString());
     }
