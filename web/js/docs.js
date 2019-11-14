@@ -163,7 +163,6 @@ async function doc_back() {
 
     chrome.storage.sync.get('doc_content', async function (items) {
         doc_content = items.doc_content;
-        alert(2);
         if (!chrome.runtime.error) {
         }
         await doc_save();
