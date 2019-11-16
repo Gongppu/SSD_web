@@ -103,7 +103,7 @@ async function send_email(){
         if(http.readyState === 4 && http.status === 201){
             var response = JSON.parse(http.responseText);
         }
-        alert("저장되었습니다.");
+        alert("멤버가 초대되었습니다.");
     }catch (e) {
         alert(e.toString());
     }
